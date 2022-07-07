@@ -1,0 +1,10 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+    <form action="/fruits" method="POST">
+        <input type="text" name="name" placeholder="enter name">
+        <input type="text" name="color" placeholder="enter color">
+        <input type="checkbox" name="readyToEat">
+        <input type="submit" value="Create New Fruit" placeholder="enter name">
+    </form>
+{% endblock %}

@@ -37,7 +37,8 @@ app.use('/users', userRoutes)
 // Routes
 //==============================
 app.get('/', (req, res) => {
-	res.send('your server is running, better go catch it')
+	// res.send('your server is running, better go catch it')
+	res.redirect('/fruits')
 })
 
 //==============================

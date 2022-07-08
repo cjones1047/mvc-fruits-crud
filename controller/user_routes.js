@@ -53,10 +53,66 @@ router.get('/login', (req, res) => {
     res.render('users/login.liquid')
 })
 // one POST to login and create the session
+router.post('/login', async (req, res) => {
+    console.log('this is the request object:', req)
+    // destructure dat from request body
+    const { username, password } = req.body
+    // console.log('this is username:', username)
+    // console.log('this is password:', password)
+    console.log('this is the session', req.session)
+    // first we find user
+    User.findOne({username})
+        .then(async (user) => {
+            // we check if the user exists
+            // if they do, we'll compare passwords and make sure it's correct
+            if (user) {
+                // compare the password
+                // bcrypt.compare evaluates to a truthy or falsy value
+                const result = await bcrypt.compare(password, user.password)
+
+                if (result) {
+                    // if the compare comes back truthy we store user properties in the session
+                    // if the pw is correct, we'll use the newly created session object
+                    req.session.username = username
+                    req.session.loggedIn = true
+                    // redirect to the '/fruits' page
+                    console.log('this is the session after login', req.session)
+                    res.redirect('/fruits')
+                } else {
+                    // otherwise(password incorrect) send an error message
+                    // for now just send some json error
+                    res.json({error: 'username or password is incorrect'})
+                }
+            } else {
+                // send an error if user doesn't exist
+                res.json({error: 'user does not exist'})
+            }
+        }) 
+        // if they don't we'll redirect to the sign up page   
+        .catch(error => {
+            console.log(error)
+            res.json(error)
+        })
+        
+            
+        
+    // if the password is correct, we'll use the newly created session object
+    // otherwise send an error message
+    
+})
 
 // logout route
 // can be a GET that calls destroy on our session
 // we can add an 'are you sure' page if there is time
+router.get('/logout', (req, res) => {
+    // destroy the session and redirect to the main page
+    req.session.destroy(ret => {
+        console.log('this is the error in logout', ret)
+        console.log('session has been destroyed')
+        console.log(req.session)
+        res.redirect('/fruits')
+    })
+})
 
 
 /////////////////////////////////////////

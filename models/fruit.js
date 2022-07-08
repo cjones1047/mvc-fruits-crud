@@ -8,6 +8,10 @@ const fruitSchema = new Schema({
     name: String,
     color: String,
     readyToEat: Boolean,
+    username: {
+        type: String,
+        default: ""
+    }
 }, {
     timestamp: true
 })

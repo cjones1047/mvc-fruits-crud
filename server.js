@@ -26,16 +26,31 @@ app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: false }))
 // to serve files from public statically
 app.use(express.static('public'))
+// bring in our session middleware
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
 
-// all of fruitRoutes will go through '/fruits'
-app.use('/fruits', fruitRoutes)
-
-// all of userRoutes will go through '/users'
-app.use('/users', userRoutes)
+// here's the middleware that sets up our sessions
+app.use(
+	session({
+		secret: process.env.SECRET,
+		store: MongoStore.create({
+			mongoUrl: process.env.DATABASE_URI
+		}),
+		saveUninitialized: true,
+		resave: false
+	})
+)
 
 //==============================
 // Routes
 //==============================
+// middleware so all of fruitRoutes will have '/fruits' prepended
+app.use('/fruits', fruitRoutes)
+
+// middleware so all of userRoutes will have '/users' prepended
+app.use('/users', userRoutes)
+
 app.get('/', (req, res) => {
 	// res.send('your server is running, better go catch it')
 	res.redirect('/fruits')

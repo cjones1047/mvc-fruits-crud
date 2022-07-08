@@ -1,10 +1,24 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-    <p>Fruit name: {{fruit.name}}</p>
-    <p>Fruit color: {{fruit.color}}</p>
-    <a href="/fruits/{{fruit._id}}/edit">Edit Fruit</a>
-    <form action="/fruits/{{fruit._id}}?_method=DELETE" method="POST">
-        <input type="submit" value="Delete">
-    </form>
+    <div class="container-md">
+        <article>
+            <h2>{{fruit.name}}</h2>
+            <h3>
+                {% if fruit.readyToEat %}
+                    Ripe and ready to eat
+                {% else %}
+                    Not ripe, wait to eat it
+                {% endif %}
+            </h3>
+            <h4>Color: {{fruit.color}}</h4>
+            <div class="btn-group">
+                <a href="/fruits/{{fruit._id}}/edit" class="btn btn-primary">Edit Fruit</a>
+                <form action="/fruits/{{fruit._id}}?_method=DELETE" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+            
+        </article>
+    </div>
 {% endblock %}

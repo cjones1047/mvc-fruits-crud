@@ -50,35 +50,35 @@ router.get('/new', (req, res) => {
     res.render('fruits/new.liquid')
 })
 
-// seed route
+// seed route ---> has been moved to models/seed.js (now ran with 'npm run seed')
 // insert many items into our database and clear out what's there with just going to this route
 // localhost:3000/fruits/seed
-router.get('/seed', (req, res) => {
-    // starting data
-    const startFruits = [
-        { name: "Orange", color: "orange", readyToEat: false },
-        { name: "Grape", color: "purple", readyToEat: false },
-        { name: "Banana", color: "orange", readyToEat: false },
-        { name: "Strawberry", color: "red", readyToEat: false },
-        { name: "Coconut", color: "brown", readyToEat: false },
-    ]
+// router.get('/seed', (req, res) => {
+//     // starting data
+//     const startFruits = [
+//         { name: "Orange", color: "orange", readyToEat: false },
+//         { name: "Grape", color: "purple", readyToEat: false },
+//         { name: "Banana", color: "orange", readyToEat: false },
+//         { name: "Strawberry", color: "red", readyToEat: false },
+//         { name: "Coconut", color: "brown", readyToEat: false },
+//     ]
 
-    // delete if we have fruits
-    Fruit.deleteMany({})
-        // insert data
-        .then(() => {
-            Fruit.create(startFruits)
-            // return this data as json to view
-            .then(data => {
-                // res.json(data)
-                res.redirect('/fruits')
-            })
-            // .catch (err => console.error(err))
-            .catch(console.error)
-        })
+//     // delete if we have fruits
+//     Fruit.deleteMany({})
+//         // insert data
+//         .then(() => {
+//             Fruit.create(startFruits)
+//             // return this data as json to view
+//             .then(data => {
+//                 // res.json(data)
+//                 res.redirect('/fruits')
+//             })
+//             // .catch (err => console.error(err))
+//             .catch(console.error)
+//         })
     
-    // return this data as json to view
-})
+//     // return this data as json to view
+// })
 
 // POST - create
 router.post('/', (req, res) => {
@@ -121,6 +121,7 @@ router.get('/:id', (req, res) => {
             res.render('fruits/show.liquid', { fruit })
         })
         .catch(err => {
+            console.log(`Did you mean to make /${fruitId} go to a different route?`)
             res.json(err)
         })
 })

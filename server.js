@@ -9,6 +9,7 @@ const express = require('express')
 const morgan = require('morgan')
 const methodOverride = require('method-override')
 const fruitRoutes = require('./controller/fruit_routes.js')
+const userRoutes = require('./controller/user_routes.js')
 
 //==============================
 // Create our express application object
@@ -28,6 +29,9 @@ app.use(express.static('public'))
 
 // all of fruitRoutes will go through '/fruits'
 app.use('/fruits', fruitRoutes)
+
+// all of userRoutes will go through '/users'
+app.use('/users', userRoutes)
 
 //==============================
 // Routes

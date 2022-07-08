@@ -49,6 +49,9 @@ router.post('/signup', async (req, res) => {
 
 // two login routes
 // one GET to show the form
+router.get('/login', (req, res) => {
+    res.render('users/login.liquid')
+})
 // one POST to login and create the session
 
 // logout route

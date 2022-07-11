@@ -75,6 +75,7 @@ router.post('/login', async (req, res) => {
                     // if the pw is correct, we'll use the newly created session object
                     req.session.username = username
                     req.session.loggedIn = true
+                    req.session.userId = user._id
                     // redirect to the '/fruits' page
                     console.log('this is the session after login', req.session)
                     res.redirect('/fruits')

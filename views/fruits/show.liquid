@@ -20,5 +20,24 @@
             </div>
             
         </article>
+        <div class="col-md-6" >
+            <form action="/comments/{{fruit._id}}" method="POST">
+                <fieldset>
+                    <legend>Add comment</legend>
+                    <label class="form-label" >Comment: </label>
+                    <input type="text" class="form-control" name="note" placeholder="Enter comment here">
+                </fieldset>
+                <input type="submit" class="btn btn-success" value="Add comment">
+            </form>
+        </div>
+        {% if fruit.comments.length > 0 %}
+        <div class="container-sm justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                {% for comment in fruit.comments %}
+                {% render '../comment.liquid' comment: comment, userId: userId, fruit: fruit, username: username %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

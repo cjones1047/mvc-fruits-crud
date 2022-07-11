@@ -133,10 +133,16 @@ router.get('/:id', (req, res) => {
     const fruitId = req.params.id
 
     Fruit.findById(fruitId)
-    // send back some json
+        // populate our USer models fields
+        // comment has an author field and that is the ref to the User model
+        // always going to be a string of the value you want to populate
+        // this also has to be another model
+        .populate('comments.author')
         .then(fruit => {
-            // res.json(fruit)
-            res.render('fruits/show.liquid', { fruit })
+            // res.json(fruit) 
+            const userId = req.session.userId
+            const username = req.session.username
+            res.render('fruits/show.liquid', { fruit, userId , username})
         })
         .catch(err => {
             console.log(`Did you mean to make /${fruitId} go to a different route?`)

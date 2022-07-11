@@ -10,6 +10,7 @@ const morgan = require('morgan')
 const methodOverride = require('method-override')
 const fruitRoutes = require('./controller/fruit_routes.js')
 const userRoutes = require('./controller/user_routes.js')
+const commentRoutes = require('./controller/comment_routes.js')
 
 //==============================
 // Create our express application object
@@ -50,6 +51,9 @@ app.use('/fruits', fruitRoutes)
 
 // middleware so all of userRoutes will have '/users' prepended
 app.use('/users', userRoutes)
+
+// middleware so all of commentRoutes will have '/comments' prepended
+app.use('/comments', commentRoutes)
 
 app.get('/', (req, res) => {
 	// res.send('your server is running, better go catch it')

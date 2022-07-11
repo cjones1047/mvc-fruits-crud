@@ -5,7 +5,7 @@ const router = express.Router()
 const Fruit = require('../models/fruit.js')
 
 // POST - Creation
-// localhost:3000/fruits/:fruitId <- A single Fruit can have many comments
+// localhost:3000/comments/:fruitId <- A single Fruit can have many comments
 router.post('/:fruitId', (req, res) => {
     const fruitId = req.params.fruitId
     req.body.author = req.body.userId
@@ -29,5 +29,26 @@ router.post('/:fruitId', (req, res) => {
 })
 
 // DELETE - delete yeeting
+router.delete('/delete/:fruitId/:commentId', (req, res) => {
+    const fruitId = req.params.fruitId
+    const commentId = req.params.commentId
+
+    Fruit.findById(fruitId) // single fruit doc, and inside a fruit doc wewill have many comments
+        .then(fruit => {
+            const comment = fruit.comments.id(commentId)
+
+            // remove comment
+            comment.remove()
+
+            // since I've changed the 'comments' field by one, I've got to return that comment
+            return fruit.save()
+        })
+        .then(fruit => {
+            res.redirect(`/fruits/${fruitId}`)
+        })
+        .catch(err => {
+            res.send(err)
+        })
+})
 
 module.exports = router
